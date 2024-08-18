@@ -1,14 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
+import {MatCheckboxModule } from '@angular/material/checkbox';
 import { FormArray, FormsModule } from '@angular/forms'; 
 import { CommonModule } from '@angular/common'; 
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 
 
 
@@ -27,12 +28,13 @@ const STUDENT_DATA: Student[] = [
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, MatTableModule, MatMenuModule, MatCheckboxModule, FormsModule, CommonModule, MatButtonModule, MatMenuTrigger,FormsModule,ReactiveFormsModule],
+  imports: [RouterOutlet, MatTableModule, MatMenuModule, MatCheckboxModule, FormsModule, CommonModule, MatButtonModule, MatMenuTrigger,FormsModule,ReactiveFormsModule,MatPaginatorModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
 export class AppComponent {
   title = 'table';
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   filterdataSource=STUDENT_DATA;
   displayedColumns: string[] = ['name', 'roll', 'place'];
   dataSource = new MatTableDataSource<Student>(STUDENT_DATA);
@@ -54,6 +56,7 @@ export class AppComponent {
     place: new Set<string>()
   };
   ngOnInit(): void {
+    this.dataSource.paginator = this.paginator;
     this.dataSource.filterPredicate = (data: Student, filter: string) => {
       const filterValues = JSON.parse(filter);
       return (

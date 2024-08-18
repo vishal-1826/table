@@ -1,0 +1,8 @@
+table {
+    width: 100%;
+  }
+  
+  mat-paginator {
+    margin: 16px 0;
+  }
+  
