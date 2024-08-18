@@ -56,7 +56,7 @@ export class AppComponent {
     place: new Set<string>()
   };
   ngOnInit(): void {
-    this.dataSource.paginator = this.paginator;
+    // this.dataSource.paginator = this.paginator;
     this.dataSource.filterPredicate = (data: Student, filter: string) => {
       const filterValues = JSON.parse(filter);
       return (
@@ -67,6 +67,9 @@ export class AppComponent {
     };
 
     this.filterForm.valueChanges.subscribe(() => this.applyFilter());
+  }
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
   }
   applyFilter(): void {
     const filterValues = {
